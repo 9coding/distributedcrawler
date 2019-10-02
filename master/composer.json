@@ -34,18 +34,7 @@
         "hyperf/pool": "~1.0.0",
         "hyperf/process": "~1.0.0",
         "hyperf/redis": "~1.0.0",
-        "hyperf/utils": "~1.0.0",
-        "hyperf/json-rpc": "~1.0.0",
-        "hyperf/rpc": "~1.0.0",
-        "hyperf/rpc-client": "~1.0.0",
-        "hyperf/rpc-server": "~1.0.0",
-        "hyperf/service-governance": "~1.0.0",
-        "hyperf/config-aliyun-acm": "~1.0.0",
-        "hyperf/constants": "~1.0.0",
-        "hyperf/async-queue": "~1.0.0",
-        "hyperf/model-cache": "~1.0.0",
-        "hyperf/elasticsearch": "~1.0.0",
-        "hyperf/tracer": "~1.0.0"
+        "hyperf/utils": "~1.0.0"
     },
     "require-dev": {
         "swoft/swoole-ide-helper": "^4.2",
