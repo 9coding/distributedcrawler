@@ -11,20 +11,21 @@
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `user_id` int(10) UNSIGNED NOT NULL auto_increment,
-  `user_email` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户邮箱，登录用',
-  `user_password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '登录密码',
-  `user_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户昵称',
+  `user_email` varchar(30) NOT NULL COMMENT '用户邮箱，登录用',
+  `user_password` varchar(255) NOT NULL COMMENT '登录密码',
+  `user_name` varchar(20) NOT NULL COMMENT '用户昵称',
   `user_phone` char(11) NOT NULL COMMENT '用户手机号',
   `user_point` int(10) unsigned NOT NULL default 0 COMMENT '用户积分',
-  `user_money` decimal(9, 2) NOT NULL default 0 COMMENT '用户余额',
-  `user_status` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '用户状态，1是正常，2是停用',
-  `user_lastip` int(10) UNSIGNED NOT NULL COMMENT '上次登录的IP地址',
+  `user_money` decimal(9, 2) unsigned NOT NULL default 0 COMMENT '用户余额',
+  `user_status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '用户状态，1是正常，2是停用',
+  `user_lastip` int(10) unsigned NOT NULL COMMENT '上次登录的IP地址',
   `user_lastdate` datetime NOT NULL COMMENT '上次登录的日期',
-  `user_currentip` int(10) UNSIGNED NOT NULL COMMENT '本次登录的IP地址',
+  `user_currentip` int(10) unsigned NOT NULL COMMENT '本次登录的IP地址',
   `user_currentdate` datetime NOT NULL COMMENT '本次登录的日期',
   `user_privatekey` char(32) NOT NULL COMMENT '用户私钥，user_email的md5',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `index_user_email` (`user_email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户表';
@@ -33,10 +34,10 @@ INSERT INTO `users` VALUES (1,'ivan820819@qq.com','$2y$10$15FPZ74gjfHPPbDl9oMbKO
 -- --------------------------------------------------------
 
 --
--- 表的结构 `userpoint`
+-- 表的结构 `userpoints`
 --
-DROP TABLE IF EXISTS `userpoint`;
-CREATE TABLE `userpoint` (
+DROP TABLE IF EXISTS `userpoints`;
+CREATE TABLE `userpoints` (
   `point_id` int(10) UNSIGNED NOT NULL auto_increment,
   `point_user` int(10) unsigned NOT NULL COMMENT '用户ID，对应users表的user_id字段',
   `point_reason` tinyint(3) UNSIGNED NOT NULL COMMENT '积分变更原因，1是订单支付时使用积分，2是订单成功完成后得到的积分，3是管理员在后台修改积分',
@@ -44,16 +45,17 @@ CREATE TABLE `userpoint` (
   `point_change` enum('+','-') NOT NULL COMMENT '积分变更类型，+代表增加积分，-代表减少积分',
   `point_order` varchar(20) NOT NULL default '' COMMENT '订单号，关联purchases表的purchase_num字段',
   `point_date` datetime NOT NULL COMMENT '积分变更日期',
-  PRIMARY KEY (`point_id`)
+  PRIMARY KEY (`point_id`),
+  INDEX `index_point_user` (`point_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户积分变更流程表';
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `usermoney`
+-- 表的结构 `usermoneys`
 --
-DROP TABLE IF EXISTS `usermoney`;
-CREATE TABLE `usermoney` (
+DROP TABLE IF EXISTS `usermoneys`;
+CREATE TABLE `usermoneys` (
   `money_id` int(10) UNSIGNED NOT NULL auto_increment,
   `money_user` int(10) unsigned NOT NULL COMMENT '用户ID，对应users表的user_id字段',
   `money_reason` tinyint(3) UNSIGNED NOT NULL COMMENT '余额变更原因，1是订单支付时使用余额，2是账户充值得到的余额，3是订单退款到余额，4是管理员在后台修改余额',
@@ -61,7 +63,8 @@ CREATE TABLE `usermoney` (
   `money_change` enum('+','-') NOT NULL COMMENT '余额变更类型，+代表增加余额，-代表减少余额',
   `money_order` varchar(20) NOT NULL default '' COMMENT '订单号，关联purchases表的purchase_num字段',
   `money_date` datetime NOT NULL COMMENT '余额变更日期',
-  PRIMARY KEY (`money_id`)
+  PRIMARY KEY (`money_id`),
+  INDEX `index_money_user` (`money_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户余额变更流程表';
 
 -- --------------------------------------------------------
@@ -84,6 +87,7 @@ CREATE TABLE `crawlers` (
   `crawler_category` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '爬虫类别，关联categories表category_id字段',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`crawler_id`),
   INDEX `index_crawler_user` (`crawler_user`),
   UNIQUE KEY `index_crawler_code` (`crawler_code`)
