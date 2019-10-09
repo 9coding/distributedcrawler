@@ -78,6 +78,7 @@ CREATE TABLE `crawlers` (
   `crawler_code` varchar(20) NOT NULL COMMENT '爬虫代号',
   `crawler_name` varchar(20) NOT NULL COMMENT '爬虫名称',
   `crawler_description` varchar(300) NOT NULL COMMENT '爬虫简介',
+  `crawler_entry` varchar(50) NOT NULL COMMENT '爬虫入口，可以是网址或者其它爬虫代号',
   `crawler_status` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '爬虫状态，1是停止，2是启动',
   `crawler_purchase` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '爬虫购买人数',
   `crawler_allowbuy` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否允许购买，1是不允许，2是允许，当爬虫允许购买时则自动上架到market中',
@@ -89,9 +90,27 @@ CREATE TABLE `crawlers` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`crawler_id`),
-  INDEX `index_crawler_user` (`crawler_user`),
+  INDEX `index_crawler_cluster` (`crawler_cluster`),
   UNIQUE KEY `index_crawler_code` (`crawler_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='爬虫表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `crawler_component`
+--
+DROP TABLE IF EXISTS `crawler_component`;
+CREATE TABLE `crawler_component` (
+  `component_id` int(10) UNSIGNED NOT NULL auto_increment,
+  `component_code` varchar(20) NOT NULL COMMENT '运行代号',
+  `component_cluster` datetime NOT NULL COMMENT '运行开始时间',
+  `component_output` datetime NOT NULL COMMENT '运行结束时间',
+  `component_order` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '运行状态，1是运行中，2是运行结束成功，3是手动停止结束，4是异常停止结束，5是暂停中',
+  `component_crawler` int(10) unsigned NOT NULL COMMENT '爬虫ID，关联crawlers表的crawler_id字段',
+  PRIMARY KEY (`component_id`),
+  INDEX `index_run_crawler` (`run_crawler`),
+  UNIQUE KEY `index_run_code` (`run_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='爬虫组件表';
 
 -- --------------------------------------------------------
 
