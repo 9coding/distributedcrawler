@@ -17,7 +17,7 @@ class CreateCrawlersTable extends Migration {
             $table->string('crawler_code', 20)->unique()->comment('爬虫代号');
             $table->string('crawler_name', 20)->comment('爬虫名称');
             $table->string('crawler_description', 300)->comment('爬虫简介');
-            $table->string('crawler_entry', 50)->comment('爬虫入口，可以是网址或者其它爬虫代号');
+            $table->string('crawler_entry', 50)->comment('爬虫入口网址');
             $table->unsignedTinyInteger('crawler_status')->default(1)->comment('爬虫状态，1是停止，2是启动');
             $table->unsignedInteger('crawler_purchase')->default(0)->comment('爬虫购买人数');
             $table->unsignedTinyInteger('crawler_allowbuy')->default(1)->comment('是否允许购买，1是不允许，2是允许，当爬虫允许购买时则自动上架到market中');
