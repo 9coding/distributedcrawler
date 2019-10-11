@@ -29,7 +29,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `index_user_email` (`user_email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户表';
-INSERT INTO `users` VALUES (1,'ivan820819@qq.com','$2y$10$15FPZ74gjfHPPbDl9oMbKOKfZl3cbqmT.Ypn4wyylZlSXqNKZFaPW','管理员','',0,0,1,0,now(),0,now(),'08d2c3c4b87e065fcc3a8729eb4d042d',now(),null);
+INSERT INTO `users` VALUES (1,'ivan820819@qq.com','$2y$10$15FPZ74gjfHPPbDl9oMbKOKfZl3cbqmT.Ypn4wyylZlSXqNKZFaPW','管理员','',0,0,1,0,now(),0,now(),'08d2c3c4b87e065fcc3a8729eb4d042d',now(),null,null);
 
 -- --------------------------------------------------------
 
@@ -70,6 +70,20 @@ CREATE TABLE `usermoneys` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `categories`
+--
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE `categories` (
+  `category_id` smallint(5) unsigned NOT NULL auto_increment,
+  `category_name` varchar(20) NOT NULL COMMENT '分类名',
+  `category_description` varchar(300) NOT NULL COMMENT '分类描述',
+  `category_status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '分类状态，1是正常，2是停用',
+  PRIMARY KEY (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='爬虫分类表';
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `crawlers`
 --
 DROP TABLE IF EXISTS `crawlers`;
@@ -102,8 +116,8 @@ CREATE TABLE `crawlers` (
 DROP TABLE IF EXISTS `components`;
 CREATE TABLE `components` (
   `component_id` int(10) unsigned NOT NULL auto_increment,
-  `component_code` varchar(20) NOT NULL COMMENT '组件代号，例如list',
-  `component_fullcode` varchar(50) NOT NULL COMMENT '组件全称，与所属爬虫代号crawler_code和组件代号component_code一起组成具体执行组件，例如tmall_list',
+  `component_code` varchar(20) NOT NULL COMMENT '组件代号，例如detail',
+  `component_fullcode` varchar(50) NOT NULL COMMENT '组件全称，与所属爬虫代号crawler_code和组件代号component_code一起组成具体执行组件，例如tmalldetail',
   `component_cluster` varchar(10) NOT NULL COMMENT '组件运行集群代号，关联clusters表cluster_code字段',
   `component_output` varchar(50) NOT NULL COMMENT '组件运行结果输出表名，根据组件code自动生成',
   `component_order` tinyint(3) unsigned NOT NULL COMMENT '组件执行顺序',
@@ -151,6 +165,7 @@ CREATE TABLE `clusters` (
   PRIMARY KEY (`cluster_id`),
   UNIQUE KEY `index_cluster_code` (`cluster_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='集群表';
+INSERT INTO `clusters` VALUES (1,'default','默认集群','所有没有归属的机器都属于默认集群',1,now(),null);
 
 -- --------------------------------------------------------
 
@@ -167,8 +182,25 @@ CREATE TABLE `workers` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`worker_id`),
-  UNIQUE KEY `index_worker_code` (`worker_code`)
+  UNIQUE KEY `index_worker_code` (`worker_code`),
+  INDEX `index_worker_cluster` (`worker_cluster`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='worker表，又名客户端表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `notifies`
+--
+DROP TABLE IF EXISTS `notifies`;
+CREATE TABLE `notifies` (
+  `notify_id` int(10) unsigned NOT NULL auto_increment,
+  `notify_content` varchar(500) NOT NULL COMMENT '通知内容',
+  `notify_date` datetime NOT NULL COMMENT '通知日期',
+  `notify_status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '通知读取状态，1是未读，2是已读',
+  `notify_user` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '接收通知用户，关联users表user_id字段',
+  PRIMARY KEY (`notify_id`),
+  INDEX `index_notify_user` (`notify_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='通知表';
 
 -- --------------------------------------------------------
 
@@ -232,20 +264,6 @@ CREATE TABLE `purchase_detail` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `categories`
---
-DROP TABLE IF EXISTS `categories`;
-CREATE TABLE `categories` (
-  `category_id` smallint(5) unsigned NOT NULL auto_increment,
-  `category_name` varchar(20) NOT NULL COMMENT '分类名',
-  `category_description` varchar(300) NOT NULL COMMENT '分类描述',
-  `category_status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '分类状态，1是正常，2是停用',
-  PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='爬虫分类表';
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `comments`
 --
 DROP TABLE IF EXISTS `comments`;
@@ -262,19 +280,4 @@ CREATE TABLE `comments` (
   PRIMARY KEY (`comments_id`),
   INDEX `index_comments_crawler` (`comments_crawler`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='爬虫评论表';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `notifies`
---
-DROP TABLE IF EXISTS `notifies`;
-CREATE TABLE `notifies` (
-  `notify_id` int(10) unsigned NOT NULL auto_increment,
-  `notify_content` varchar(500) NOT NULL COMMENT '通知内容',
-  `notify_date` datetime NOT NULL COMMENT '通知日期',
-  `notify_status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '通知读取状态，1是未读，2是已读',
-  `notify_user` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '接收通知用户，关联users表user_id字段',
-  PRIMARY KEY (`notify_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='通知表';
 
