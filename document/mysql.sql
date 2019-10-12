@@ -23,13 +23,28 @@ CREATE TABLE `users` (
   `user_currentip` int(10) unsigned NOT NULL COMMENT '本次登录的IP地址',
   `user_currentdate` datetime NOT NULL COMMENT '本次登录的日期',
   `user_privatekey` char(32) NOT NULL COMMENT '用户私钥，user_email的md5',
+  `user_role` tinyint(3) unsigned NOT NULL DEFAULT 2 COMMENT '用户角色，关联roles表的role_id字段',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `index_user_email` (`user_email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户表';
-INSERT INTO `users` VALUES (1,'ivan820819@qq.com','$2y$10$15FPZ74gjfHPPbDl9oMbKOKfZl3cbqmT.Ypn4wyylZlSXqNKZFaPW','管理员','',0,0,1,0,now(),0,now(),'08d2c3c4b87e065fcc3a8729eb4d042d',now(),null,null);
+INSERT INTO `users` VALUES (1,'ivan820819@qq.com','$2y$10$15FPZ74gjfHPPbDl9oMbKOKfZl3cbqmT.Ypn4wyylZlSXqNKZFaPW','管理员','',0,0,1,0,now(),0,now(),'08d2c3c4b87e065fcc3a8729eb4d042d',1,now(),null,null);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `roles`
+--
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE `roles` (
+  `role_id` tinyint(3) unsigned NOT NULL auto_increment,
+  `role_name` varchar(20) NOT NULL COMMENT '角色名称',
+  `role_status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '状态，1是正常，2是停用',
+  PRIMARY KEY (`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户角色表';
+INSERT INTO `roles` VALUES (1,'管理员',1),(2,'普通用户',1);
 
 -- --------------------------------------------------------
 

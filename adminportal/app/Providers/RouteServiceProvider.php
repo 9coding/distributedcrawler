@@ -5,8 +5,8 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
-class RouteServiceProvider extends ServiceProvider
-{
+class RouteServiceProvider extends ServiceProvider {
+
     /**
      * This namespace is applied to your controller routes.
      *
@@ -21,10 +21,8 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-        //
-
+    public function boot() {
+        Route::pattern('id', '[0-9]+');//路由参数整体正则定义
         parent::boot();
     }
 
@@ -33,15 +31,26 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function map()
-    {
+    public function map() {
         $this->mapApiRoutes();
-
         $this->mapWebRoutes();
-
-        //
+        $this->mapAdminRoutes();
     }
 
+    /**
+     * Define the "admin" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapAdminRoutes() {
+        Route::prefix('admin')
+               ->middleware('web')
+               ->namespace($this->namespace.'\Admin')
+               ->group(base_path('routes/admin.php'));
+    }
+    
     /**
      * Define the "web" routes for the application.
      *
@@ -49,11 +58,10 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapWebRoutes()
-    {
+    protected function mapWebRoutes() {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+               ->namespace($this->namespace.'\Home')
+               ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -63,11 +71,11 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapApiRoutes()
-    {
+    protected function mapApiRoutes() {
         Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+               ->middleware('api')
+               ->namespace($this->namespace)
+               ->group(base_path('routes/api.php'));
     }
+
 }
