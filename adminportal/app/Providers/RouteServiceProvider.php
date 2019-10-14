@@ -45,7 +45,7 @@ class RouteServiceProvider extends ServiceProvider {
      * @return void
      */
     protected function mapAdminRoutes() {
-        Route::prefix('admin')
+        Route::domain(config('app.admin_domain'))
                ->middleware('web')
                ->namespace($this->namespace.'\Admin')
                ->group(base_path('routes/admin.php'));
@@ -74,7 +74,7 @@ class RouteServiceProvider extends ServiceProvider {
     protected function mapApiRoutes() {
         Route::prefix('api')
                ->middleware('api')
-               ->namespace($this->namespace)
+               ->namespace($this->namespace.'\Api')
                ->group(base_path('routes/api.php'));
     }
 
