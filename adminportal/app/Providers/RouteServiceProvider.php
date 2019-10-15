@@ -33,8 +33,8 @@ class RouteServiceProvider extends ServiceProvider {
      */
     public function map() {
         $this->mapApiRoutes();
+        $this->mapAdminRoutes();//为了确保子域名路由是可访问，应该在注册根域名路由之前注册子域名路由。这将防止根域名路由覆盖具有相同 URI 路径的子域名路由。
         $this->mapWebRoutes();
-        $this->mapAdminRoutes();
     }
 
     /**

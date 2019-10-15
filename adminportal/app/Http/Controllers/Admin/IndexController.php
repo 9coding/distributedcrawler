@@ -6,5 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class IndexController extends BaseController {
-    //
+
+    public function login() {
+        return $this->display();
+    }
 }

@@ -2,21 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable {
 
     use Notifiable;
+    
+    protected $primaryKey = 'user_id';
 
     /**
-     * The attributes that are mass assignable.
+     * 不可批量赋值的属性
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
+    protected $guarded = [
+        'user_point','user_money','user_role'
     ];
 
     /**
@@ -25,7 +26,7 @@ class User extends Authenticatable {
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'user_password', 'user_privatekey',
     ];
 
     /**
@@ -34,8 +35,16 @@ class User extends Authenticatable {
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'created_at' => 'datetime',
     ];
+    
+    protected $appends = ['is_admin'];
 
-    protected $primaryKey = 'user_id';
+    public function getRouteKeyName() {
+        return $this->primaryKey;
+    }
+
+    public function getIsAdminAttribute() {
+        return $this->attributes['user_role'] == 1;
+    }
 }
