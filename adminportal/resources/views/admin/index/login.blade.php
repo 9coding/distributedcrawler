@@ -23,7 +23,7 @@
     <body>
         <div class="loginWraper">
             <div id="loginform" class="loginBox">
-                <form class="form form-horizontal" action="{{url('login')}}" method="post">
+                <form class="form form-horizontal" action="{{route('dologin')}}" method="post" id="login_form">
                     {{ csrf_field() }}
                     <div class="row cl">
                         <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="row cl">
                         <div class="formControls col-xs-8 col-xs-offset-3">
-                            <input class="input-text size-L" type="text" placeholder="@lang('messages.captcha_code')" value="" style="width:150px;">
+                            <input id="captcha_code" name="captcha_code" class="input-text size-L" type="text" placeholder="@lang('messages.captcha_code')" style="width:150px;">
                             <img src=""> <a id="kanbuq" href="javascript:;">@lang('messages.change_pic')</a> </div>
                     </div>
                     <div class="row cl">
@@ -62,6 +62,13 @@
         <div class="footer">&copy; ivan820819</div>
         <script type="text/javascript" src="{{asset('lib/jquery/1.9.1/jquery.min.js')}}"></script> 
         <script type="text/javascript" src="{{asset('static/h-ui/js/H-ui.min.js')}}"></script>
+        <script type="text/javascript">
+            var alert_msg = {
+                input_email : "@lang('messages.please_input')@lang('messages.user_email')",
+                input_password : "@lang('messages.please_input')@lang('messages.user_password')",
+                input_captcha : "@lang('messages.please_input')@lang('messages.captcha_code')"
+            };
+        </script>
         <script type="text/javascript" src="{{asset('js/login.js')}}"></script>
     </body>
 </html>

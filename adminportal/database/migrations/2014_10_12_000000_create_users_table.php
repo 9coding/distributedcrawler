@@ -25,8 +25,8 @@ class CreateUsersTable extends Migration {
             $table->dateTime('user_lastdate')->comment('上次登录的日期');
             $table->unsignedInteger('user_currentip')->default(0)->comment('本次登录的IP地址');
             $table->dateTime('user_currentdate')->comment('本次登录的日期');
-            $table->char('user_privatekey', 32)->comment('用户私钥，user_email的md5');
             $table->unsignedTinyInteger('user_role')->default(2)->comment('用户角色，关联roles表的role_id字段');
+            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });

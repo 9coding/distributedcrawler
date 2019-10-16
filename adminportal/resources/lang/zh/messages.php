@@ -24,6 +24,8 @@ return [
     'captcha_code' => '验证码',
     'remember_me' => '使我保持登录状态',
     
+    //alert error部分
+    
     //user部分
     'user_email' => '邮箱',
     'user_password' => '密码',

@@ -11,6 +11,8 @@ class IndexController extends BaseController {
     }
     
     public function dologin(Request $request) {
-        
+        $postdata = $request->all();
+        echo '<pre>';
+        print_r($postdata);exit;
     }
 }
