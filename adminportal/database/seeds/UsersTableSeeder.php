@@ -23,7 +23,7 @@ class UsersTableSeeder extends Seeder {
             'user_lastdate' => now(),
             'user_currentip' => 0,
             'user_currentdate' => now(),
-            'user_privatekey' => md5('ivan820819@qq.com'),
+            'remember_token' => '',
             'user_role' => 1,
             'created_at' => date('Y-m-d H:i:s')
         ]);
