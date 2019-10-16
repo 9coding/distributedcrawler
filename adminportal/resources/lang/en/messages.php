@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'site_title' => '分布式爬虫管理系统',
+    
     'btn_login' => '登录',
     'btn_logout' => '注销',
     'btn_add' => '新增',

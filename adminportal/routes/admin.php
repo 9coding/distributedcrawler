@@ -13,3 +13,4 @@
 
 Route::get('/', 'IndexController@index')->name('home');
 Route::get('/login', 'IndexController@login')->name('login');
+Route::post('/login', 'IndexController@dologin')->name('dologin');
