@@ -12,5 +12,8 @@
 */
 
 Route::get('/', 'IndexController@index')->name('home');
-Route::get('/login', 'IndexController@login')->name('login');
-Route::post('/login', 'IndexController@dologin')->name('dologin');
+Route::get('/register', 'RegisterController@showRegistrationForm')->name('register');
+Route::post('/register', 'RegisterController@register')->name('doregister');
+Route::get('/login', 'LoginController@showLoginForm')->name('login');
+Route::post('/login', 'LoginController@login')->name('dologin');
+Route::get('/logout', 'LoginController@logout')->name('logout');

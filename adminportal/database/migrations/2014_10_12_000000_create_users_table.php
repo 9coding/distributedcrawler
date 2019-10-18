@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('user_id');
             $table->string('user_email', 30)->unique()->comment('用户邮箱，登录用');
-            $table->string('user_password', 255);
+            $table->string('password', 255);
             $table->string('user_name', 20)->comment('用户昵称');
             $table->char('user_phone', 11);
             $table->unsignedInteger('user_point')->default(0)->comment('用户积分');
@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration {
             $table->dateTime('user_lastdate')->comment('上次登录的日期');
             $table->unsignedInteger('user_currentip')->default(0)->comment('本次登录的IP地址');
             $table->dateTime('user_currentdate')->comment('本次登录的日期');
-            $table->unsignedTinyInteger('user_role')->default(2)->comment('用户角色，关联roles表的role_id字段');
+            $table->unsignedTinyInteger('user_role')->default(3)->comment('用户角色，关联roles表的role_id字段');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

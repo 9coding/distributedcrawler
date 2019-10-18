@@ -22,32 +22,44 @@
     </head>
     <body>
         <div class="loginWraper">
-            <div id="loginform" class="loginBox">
+            <div id="loginform" class="loginBox" style="@if ($errors->any()) padding-top: 0px;height: 350px;@endif">
                 <form class="form form-horizontal" action="{{route('dologin')}}" method="post" id="login_form">
                     {{ csrf_field() }}
+                    @if ($errors->any())
+                    <div class="row cl">
+                        <div class="formControls col-xs-11" style="text-align: center;color: red;">
+                            @foreach ($errors->all() as $error)
+                            <span>{{ $error }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
                     <div class="row cl">
                         <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
                         <div class="formControls col-xs-8">
-                            <input id="user_email" name="user_email" type="text" placeholder="@lang('messages.user_email')" class="input-text size-L">
+                            <input id="admin_email" name="admin_email" type="text" placeholder="@lang('messages.user_email')" class="input-text size-L">
                         </div>
                     </div>
                     <div class="row cl">
                         <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
                         <div class="formControls col-xs-8">
-                            <input id="user_password" name="user_password" type="password" placeholder="@lang('messages.user_password')" class="input-text size-L">
+                            <input id="password" name="password" type="password" placeholder="@lang('messages.user_password')" class="input-text size-L">
                         </div>
                     </div>
                     <div class="row cl">
                         <div class="formControls col-xs-8 col-xs-offset-3">
                             <input id="captcha_code" name="captcha_code" class="input-text size-L" type="text" placeholder="@lang('messages.captcha_code')" style="width:150px;">
-                            <img src=""> <a id="kanbuq" href="javascript:;">@lang('messages.change_pic')</a> </div>
+                            <img src="{{captcha_src()}}" alt="captcha" style="cursor: pointer" onclick="this.src='{{captcha_src()}}'+Math.random()" title="@lang('messages.change_pic')"></div>
                     </div>
                     <div class="row cl">
                         <div class="formControls col-xs-8 col-xs-offset-3">
                             <label for="remember_me">
-                                <input type="checkbox" name="remember_me" id="remember_me" value="1">
+                                <input type="checkbox" name="remember" id="remember" value="1">
                                 @lang('messages.remember_me')
                             </label>
+                            <div style="float:right;margin-right:10%;">
+                                <a href="{{route('register')}}">@lang('messages.user_registe')</a>
+                            </div>
                         </div>
                     </div>
                     <div class="row cl">

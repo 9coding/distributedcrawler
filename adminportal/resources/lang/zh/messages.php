@@ -23,6 +23,7 @@ return [
     'change_pic' => '看不清，换一张',
     'captcha_code' => '验证码',
     'remember_me' => '使我保持登录状态',
+    'user_registe' => '没有账号？点此注册',
     
     //alert error部分
     

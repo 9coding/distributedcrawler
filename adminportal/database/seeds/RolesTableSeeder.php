@@ -13,6 +13,7 @@ class RolesTableSeeder extends Seeder {
     public function run() {
         DB::table('roles')->insert([
             ['role_name' => '管理员','role_status' => 1],
+            ['role_name' => '付费用户','role_status' => 1],
             ['role_name' => '普通用户','role_status' => 1]
         ]);
     }

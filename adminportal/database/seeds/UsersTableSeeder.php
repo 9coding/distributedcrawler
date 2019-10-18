@@ -11,20 +11,14 @@ class UsersTableSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        DB::table('users')->insert([
-            'user_email' => 'ivan820819@qq.com',
-            'user_password' => bcrypt('123456'),
-            'user_name' => '管理员',
-            'user_phone' => '',
-            'user_point' => 0,
-            'user_money' => 0,
-            'user_status' => 1,
-            'user_lastip' => 0,
-            'user_lastdate' => now(),
-            'user_currentip' => 0,
-            'user_currentdate' => now(),
+        DB::table('admins')->insert([
+            'admin_email' => 'ivan820819@qq.com',
+            'password' => bcrypt('123456'),
+            'admin_level' => 1,
+            'admin_name' => '管理员',
+            'admin_loginip' => 0,
+            'admin_logindate' => now(),
             'remember_token' => '',
-            'user_role' => 1,
             'created_at' => date('Y-m-d H:i:s')
         ]);
     }

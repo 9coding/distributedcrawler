@@ -40,10 +40,6 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
-        ],
-        
-        'admin' => [
-            \App\Http\Middleware\CheckAdmin::class
         ]
     ];
 

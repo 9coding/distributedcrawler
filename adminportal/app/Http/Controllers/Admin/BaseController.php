@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 
 class BaseController extends Controller {
     
@@ -13,9 +14,14 @@ class BaseController extends Controller {
     private $currentController = '';
     
     private $currentAction = '';
+    
+    protected $userInfo;
 
     public function __construct(Request $request) {
-        $this->middleware('admin')->except(['login', 'dologin']);
+        $this->middleware('auth:admin');//使用Kernel.php下routeMiddleware定义的auth中间件
+        $this->userInfo = Auth::guard('admin')->user();
+        echo '<pre>';
+        print_r($request->session());
         App::setLocale('zh');
         list($class, $this->currentAction) = explode('@', $request->route()->getActionName());
         $this->currentController = strtolower(str_replace('Controller', '', substr(strrchr($class, '\\'), 1)));

@@ -1,12 +1,12 @@
 
 $(function () {
     $("#login_btn").click(function () {
-        let email = $.trim($("#user_email").val());
+        let email = $.trim($("#admin_email").val());
         if (!email) {
             alert(alert_msg.input_email);
             return false;
         }
-        let password = $.trim($("#user_password").val());
+        let password = $.trim($("#password").val());
         if (!password) {
             alert(alert_msg.input_password);
             return false;

@@ -95,7 +95,7 @@ return [
     'numeric' => 'The :attribute must be a number.',
     'present' => 'The :attribute field must be present.',
     'regex' => 'The :attribute format is invalid.',
-    'required' => 'The :attribute field is required.',
+    'required' => ':attribute 字段为必填项。',
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',
     'required_with' => 'The :attribute field is required when :values is present.',
@@ -116,7 +116,7 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
-    'captcha' => ':attribute not correct.',
+    'captcha' => ':attribute 不正确。',
 
     /*
     |--------------------------------------------------------------------------
@@ -147,7 +147,9 @@ return [
     */
 
     'attributes' => [
-        'captcha' => 'captcha',
+        'user_email' => '邮箱',
+        'password' => '密码',
+        'captcha_code' => '验证码',
     ],
 
 ];

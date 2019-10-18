@@ -6,13 +6,36 @@
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `admins`
+--
+DROP TABLE IF EXISTS `admins`;
+CREATE TABLE `admins` (
+  `admin_id` tinyint(3) unsigned NOT NULL auto_increment,
+  `admin_email` varchar(30) NOT NULL COMMENT '邮箱，登录用',
+  `password` varchar(255) NOT NULL COMMENT '登录密码',
+  `admin_level` tinyint(3) unsigned NOT NULL DEFAULT 2 COMMENT '管理员等级，1是超级管理员',
+  `admin_name` varchar(20) NOT NULL COMMENT '用户昵称',
+  `admin_loginip` int(10) unsigned NOT NULL COMMENT '本次登录的IP地址',
+  `admin_logindate` datetime NOT NULL COMMENT '本次登录的日期',
+  `remember_token` varchar(100) NOT NULL default '' COMMENT '记住登录状态',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`admin_id`),
+  UNIQUE KEY `index_admin_email` (`admin_email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='管理员表';
+INSERT INTO `admins` VALUES (1,'ivan820819@qq.com','$2y$10$15FPZ74gjfHPPbDl9oMbKOKfZl3cbqmT.Ypn4wyylZlSXqNKZFaPW',1,'管理员',0,now(),'',now(),null,null);
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `users`
 --
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `user_id` int(10) unsigned NOT NULL auto_increment,
   `user_email` varchar(30) NOT NULL COMMENT '用户邮箱，登录用',
-  `user_password` varchar(255) NOT NULL COMMENT '登录密码',
+  `password` varchar(255) NOT NULL COMMENT '登录密码',
   `user_name` varchar(20) NOT NULL COMMENT '用户昵称',
   `user_phone` char(11) NOT NULL COMMENT '用户手机号',
   `user_point` int(10) unsigned NOT NULL default 0 COMMENT '用户积分',
@@ -30,7 +53,6 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `index_user_email` (`user_email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户表';
-INSERT INTO `users` VALUES (1,'ivan820819@qq.com','$2y$10$15FPZ74gjfHPPbDl9oMbKOKfZl3cbqmT.Ypn4wyylZlSXqNKZFaPW','管理员','',0,0,1,0,now(),0,now(),'',1,now(),null,null);
 
 -- --------------------------------------------------------
 
@@ -44,7 +66,7 @@ CREATE TABLE `roles` (
   `role_status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '状态，1是正常，2是停用',
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户角色表';
-INSERT INTO `roles` VALUES (1,'管理员',1),(2,'普通用户',1);
+INSERT INTO `roles` VALUES (1,'开发者',1),(2,'普通用户',1);
 
 -- --------------------------------------------------------
 
