@@ -14,17 +14,20 @@ class BaseController extends Controller {
     private $currentController = '';
     
     private $currentAction = '';
-    
-    protected $userInfo;
 
     public function __construct(Request $request) {
         $this->middleware('auth:admin');//使用Kernel.php下routeMiddleware定义的auth中间件
-        $this->userInfo = Auth::guard('admin')->user();
-        echo '<pre>';
-        print_r($request->session());
         App::setLocale('zh');
         list($class, $this->currentAction) = explode('@', $request->route()->getActionName());
         $this->currentController = strtolower(str_replace('Controller', '', substr(strrchr($class, '\\'), 1)));
+    }
+    
+    public function getUser($info = '') {
+        $user = Auth::guard('admin')->user();
+        if ($info && isset($user[$info])) {
+            return $user[$info];
+        }
+        return $user;
     }
     
     protected function assign($key = '', $value = '') {
